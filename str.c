@@ -44,6 +44,30 @@ __asm__(
        INTEL_END
 );
 
+__asm__(
+       INTEL_BEGIN
+       "str32ncmp:\n"
+       "   push ebp\n"
+       "   mov ebp, esp\n"
+       "   mov edi, [ebp + 8]\n"
+       "   mov esi, [ebp + 12]\n"
+       "   mov ecx, [ebp + 16]\n"
+       "   mov eax, 0\n"
+
+       "   repnz cmpsb\n"
+       "   jnz mismatch\n"
+
+       "mismatch:\n"
+       "    mov eax, edi\n"
+       "    sub eax, esi\n"
+
+       "   mov esp, ebp\n"
+       "   pop ebp\n"
+       "   ret\n"
+       INTEL_END
+);
+
+
 int main()
 {
     puts("-----STR32LEN-------");
@@ -64,5 +88,13 @@ int main()
     printf("copy of cats and kittens with dest2 => \"%s\"\n", dest2);
 
     puts("-----STR32NCPM-------");
+    printf("Comparison cats and cats (normal)=> %d\n", strncmp("cats","cats", 4));
+    printf("Comparison cats and cats => %d\n", str32ncmp("cats","cats", 4));
+
+    printf("Comparison cats and kittens (normal)=> %d\n", strncmp("cats","kittens", 4));
+    printf("Comparison cats and kittens => %d\n", str32ncmp("cats","kittens", 4));
+
+    printf("Comparison kittens and cats (normal)=> %d\n", strncmp("kittens","cats", 4));
+    printf("Comparison kittens and cats => %d\n", str32ncmp("kittens","cats", 4));
     return 0;
 }
