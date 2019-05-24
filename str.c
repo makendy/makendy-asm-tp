@@ -46,24 +46,29 @@ __asm__(
 
 __asm__(
        INTEL_BEGIN
-       "str32ncmp:\n"
-       "   push ebp\n"
-       "   mov ebp, esp\n"
-       "   mov edi, [ebp + 8]\n"
-       "   mov esi, [ebp + 12]\n"
-       "   mov ecx, [ebp + 16]\n"
-       "   mov eax, 0\n"
-
-       "   repnz cmpsb\n"
-       "   jnz mismatch\n"
-
-       "mismatch:\n"
-       "    mov eax, edi\n"
-       "    sub eax, esi\n"
-
-       "   mov esp, ebp\n"
-       "   pop ebp\n"
-       "   ret\n"
+        "str32ncmp:\n"
+        "   push ebp\n"
+        "   mov ebp, esp\n"
+        "   mov edi, [ebp + 8]\n"
+        "   mov esi, [ebp + 12]\n"
+        "   mov ecx, [ebp + 16]\n"
+        "   cld\n"
+        "comp:\n"
+        "   repe cmpsb\n"
+        "   jne diff\n"
+        "   mov eax, 0\n"
+        "   jmp exit\n"
+        "diff:\n"
+        "   ja negg\n"
+        "   mov eax, 1\n"
+        "   jmp exit\n"
+        "negg:\n"
+        "   mov eax, 1\n"
+        "   neg eax\n"
+        "exit:\n"
+        "   mov esp, ebp\n"
+        "   pop ebp\n"
+        "   ret\n"
        INTEL_END
 );
 
