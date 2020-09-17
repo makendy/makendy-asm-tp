@@ -1,0 +1,4 @@
+Created by Makendy PITON
+Assembly language
+str.c is a 32 bits program binary : run "sudo apt-get install gcc-multilib" before compiling it
+bitsetnum is a 64 bits program binary

@@ -76,10 +76,10 @@ __asm__(
 int main()
 {
     puts("-----STR32LEN-------");
-    printf("0 => %d\n",str32len(""));
-    printf("1 => %d\n",str32len("a"));
-    printf("4 => %d\n",str32len("cats"));
-    printf("10 => %d\n",str32len("abcdefghij"));
+    printf("Length of null => %d\n",str32len(""));
+    printf("Length of a => %d\n",str32len("a"));
+    printf("Length of cats => %d\n",str32len("cats"));
+    printf("Length of abcdefghij => %d\n",str32len("abcdefghij"));
 
     puts("-----STR32CPY-------");
     char *dest = malloc(sizeof(char) * (strlen("cats") + 1));
